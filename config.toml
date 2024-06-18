@@ -1,0 +1,26 @@
+[causal-discovery]
+algorithms = ["DAG-GNN"]
+lags = [7]
+
+[change-point-detection]
+model = "rbf"
+penalty = 2
+window-sizes = [30]
+
+[data]
+path = "../data/stampa.csv"
+target = "block4a_diff"
+scaling = "perc_range"
+use-differences = [true]
+always-include = [
+    "precipitation",
+    "temperature",
+    "frost",
+    "frost_days",
+    "ftc",
+    "ftc_days"
+    ]
+
+[misc]
+verbose = true
+label = "stampa_example"
