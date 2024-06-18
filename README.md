@@ -43,7 +43,7 @@ There are three different Causal Discovery algorithms available to run MWCD that
 Example to run the MWCD with DAG-GNN and again with NoTearsNonLinear: 
 ```toml
 [causal-discovery]
-algorithms: ["DAG-GNN", "NoTearsNonLinear"]
+algorithms = ["DAG-GNN", "NoTearsNonLinear"]
 ```
 
 #### Lags
@@ -53,7 +53,7 @@ The number of lags for the shifting before temporal causal discovery can be set 
 Example to run the MWCD with 7 sample shifts and 14 sample shifts:
 ```toml
 [causal-discovery]
-lags: [7, 14]
+lags = [7, 14]
 ```
 
 ### Change Point Detection
