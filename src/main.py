@@ -273,12 +273,12 @@ def mwcd(df, params, change_points, temporal, pbar):
                 # get diff cols
                 diff_cols = find_diff_cols(df)
 
-                selected_cols = diff_cols + params["mandatory_cols"]
+                selected_cols = [y for y in df.columns if y not in diff_cols]
                 tau_max = 10
                 pc_alpha = 0.05
 
                 if params["use_differences"]:
-                    selected_cols = [y for y in df.columns if y not in diff_cols]
+                    selected_cols = diff_cols + params["mandatory_cols"]
 
                 df_slice = get_data_slice(df, change_points[i], change_points[i+1], params, reshape=False)
                 
@@ -286,6 +286,28 @@ def mwcd(df, params, change_points, temporal, pbar):
                 pcmci_df = pp.DataFrame(X, var_names=selected_cols)
                 pcmci = PCMCI(dataframe=pcmci_df, cond_ind_test=ParCorr(significance='analytic'), verbosity=0)
                 results = pcmci.run_pcmciplus(tau_min=0, tau_max=tau_max, pc_alpha=pc_alpha)
+
+                # append causal matrix
+                causal_matrices.append(results['val_matrix'])
+
+            elif params["causal_discovery_algo"] == 'LPCMCI':
+
+                # get diff cols
+                diff_cols = find_diff_cols(df)
+
+                selected_cols = [y for y in df.columns if y not in diff_cols]
+                tau_max = 10
+                pc_alpha = 0.05
+
+                if params["use_differences"]:
+                    selected_cols = diff_cols + params["mandatory_cols"]
+
+                df_slice = get_data_slice(df, change_points[i], change_points[i+1], params, reshape=False)
+                
+                X = df_slice[selected_cols].to_numpy()
+                lpcmci_df = pp.DataFrame(X, var_names=selected_cols)
+                lpcmci = LPCMCI(dataframe=lpcmci_df, cond_ind_test=ParCorr(significance='analytic'), verbosity=0)
+                results = lpcmci.run_lpcmci(tau_min=0, tau_max=tau_max, pc_alpha=pc_alpha)
 
                 # append causal matrix
                 causal_matrices.append(results['val_matrix'])

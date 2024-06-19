@@ -39,6 +39,8 @@ There are three different Causal Discovery algorithms available to run MWCD that
 - DAG-GNN
 - NoTearsNonLinear
 - DirectLiNGAM
+- PCMCI
+- LPCMCI
 
 Example to run the MWCD with DAG-GNN and again with NoTearsNonLinear: 
 ```toml
